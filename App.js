@@ -1,22 +1,34 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import ApiComponent from "./component/ApiComponent";
+import React from 'react';
+import { View, Text, FlatList, SafeAreaView } from 'react-native';
+import FetchData from './hook/FetchData';
 
-export default function App() {
+
+const API_URL = "https://api.coindesk.com/v1/bpi/currentprice.json";
+
+const App = () => {
+  const { data, loading } = FetchData(API_URL);
+
+  if (loading) {
+    return <Text>Loading...</Text>;
+  }
+
+  const currencies = Object.values(data.bpi);
+
   return (
-		<View style={styles.container}>
-			<Text>Open up App.js to start working on your app!</Text>
-			<ApiComponent />
-			<StatusBar style="auto" />
-		</View>
-	);
-}
+    <SafeAreaView style={{ flex: 1 }}>
+      <FlatList
+        data={currencies}
+        keyExtractor={(item) => item.code}
+        renderItem={({ item }) => (
+          <View style={{ padding: 10, borderBottomColor: '#ccc', borderBottomWidth: 1 }}>
+            <Text>Code: {item.code}</Text>
+            <Text>Rate: {item.rate}</Text>
+            <Text>Description: {item.description}</Text>
+          </View>
+        )}
+      />
+    </SafeAreaView>
+  );
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
