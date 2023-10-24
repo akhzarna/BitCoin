@@ -6,6 +6,8 @@ export default function App() {
   return (
 		<View style={styles.container}>
 			<Text>hello from Rafia sajid (Fa20-bse-103)
+        hello second time updates
+        
       </Text>
 			<ApiComponent />
 			<StatusBar style="auto" />
