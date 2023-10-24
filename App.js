@@ -5,7 +5,7 @@ import ApiComponent from "./component/ApiComponent";
 export default function App() {
   return (
 		<View style={styles.container}>
-			<Text>Open up App.js to start working on your app!</Text>
+			<Text>Hello Sir, This is Talha Iqbal (FA20-BSE-102)</Text>
 			<ApiComponent />
 			<StatusBar style="auto" />
 		</View>
