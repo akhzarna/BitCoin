@@ -1,25 +1,45 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { Text, View } from "react-native";
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const ApiComponent = () => {
+
 	useEffect(() => {
 		// Define the API endpoint
-		const apiUrl = "https://api.coindesk.com/v1/bpi/currentprice.json"; // Example API
-		// Make an API request
-		axios
-			.get(apiUrl)
-			.then((response) => {
-				console.log("API Response:", response.data);
-			})
-			.catch((error) => {
-				console.error("API Error:", error);
-			});
+		
+		AsyncStorage.getItem("btc").then((data) => {
+			if (data !== null) {
+				
+				console.log("Data Fetching from Local Storage ")
+				console.log(data );
+				return;
+			}
+			else {
+				console.log("Data Fetching From API")
+				const apiUrl = "https://api.coindesk.com/v1/bpi/currentprice.json"; // Example API
+				// Make an API request
+				axios
+					.get(apiUrl)
+					.then((response) => {
+						console.log("API Response:", response.data);
+						const getBit = async () => {
+							const bit = await AsyncStorage.setItem("btc", JSON.stringify([{"symbol": response.data.bpi.EUR.code,  "rate" : response.data.bpi.EUR.rate },{"symbol": response.data.bpi.USD.code,  "rate" : response.data.bpi.USD.rate }]));
+							console.log(await AsyncStorage.getItem("btc"));
+						}
+						getBit();
+
+					})
+					.catch((error) => {
+						console.error("API Error:", error);
+					});
+			}
+		})
+
 	}, []);
 
 	return (
 		<View>
-			<Text>Check the console for API response</Text>
+			
 		</View>
 	);
 };
