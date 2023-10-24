@@ -1,22 +1,43 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import ApiComponent from "./component/ApiComponent";
+import React from 'react';
+import { View, Text, FlatList, StyleSheet } from 'react-native'; // Import necessary modules
+import { useBitcoinData } from './useBitcoinData'; // Import the custom hook
 
-export default function App() {
+const App = () => {
+  const bitcoinData = useBitcoinData();
+
   return (
-		<View style={styles.container}>
-			<Text>Open up App.js to start working on your app!</Text>
-			<ApiComponent />
-			<StatusBar style="auto" />
-		</View>
-	);
-}
+    <View style={styles.container}>
+      <FlatList
+        data={bitcoinData}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <View style={styles.itemContainer}>
+            <Text style={styles.currencyText}>Currency: {item.code}</Text>
+            <Text style={styles.priceText}>Price: {item.rate}</Text>
+          </View>
+        )}
+      />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: '#f0f0f0', // Background color
+  },
+  itemContainer: {
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  currencyText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  priceText: {
+    fontSize: 16,
   },
 });
+
+export default App;
