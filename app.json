@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ApiExample",
-    "slug": "ApiExample",
+    "name": "lab-exam",
+    "slug": "lab-exam",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
